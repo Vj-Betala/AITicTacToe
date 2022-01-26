@@ -18,13 +18,13 @@ public class AI implements PlayerInt {
         for (int x = 0; x < locations.length; x++) {
             for (int y = 0; y < locations.length; y++) {
                 for (int z = 0; z < locations.length; z++) {
-                    locations[x][y][z] =
+                    //locations[x][y][z] =
                 }
             }
         }
     }
 
-    for (int x = 0; ) {}
+    //for (int x = 0; ) {}
 
     @Override
     public char getLetter() {
@@ -33,7 +33,7 @@ public class AI implements PlayerInt {
 
     @Override
     public Location getMove(char[][][] board) {
-        return ;
+        return new Location(0,0,0);
     }
 
     @Override

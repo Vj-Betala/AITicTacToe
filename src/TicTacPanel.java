@@ -14,7 +14,8 @@ public class TicTacPanel extends JPanel implements MouseListener {
 
         public TicTacPanel() {
             super();
-            setSize(600,400);
+            setSize(800,600);
+            buffer = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
             addMouseListener(this);
             rand = new Random();
         }
@@ -24,7 +25,8 @@ public class TicTacPanel extends JPanel implements MouseListener {
             bg.setColor(Color.BLACK);
             bg.fillRect(0,0,getWidth(),getHeight());
             bg.setColor(Color.WHITE);
-            bg.fillRect(10,10,40,40);
+            bg.drawRect(10,10,40,40);
+
 
             g.drawImage(buffer,0,0,null);
         }
