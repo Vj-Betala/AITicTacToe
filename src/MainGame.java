@@ -3,5 +3,6 @@ public class MainGame {
         System.out.println("Test");
         System.out.println("Test 2");
         System.out.println("Test 2");
+        new TicTacFrame("TicTac");
     }
 }
