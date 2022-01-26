@@ -27,4 +27,4 @@ public class Location
         public String toString()
         {   return "(x=" + col+",y="+row+ ",z="+sheet+ ")";   }
     }
-}
+
