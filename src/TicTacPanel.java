@@ -9,10 +9,13 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class TicTacPanel extends JPanel implements MouseListener {
-        private Random rand;
-        private BufferedImage buffer;
+    private Random rand;
+    private BufferedImage buffer;
+    int[][][] locations = new int[4][4][4];
+    char letter;
+    String name;
 
-        public TicTacPanel() {
+    public TicTacPanel() {
             super();
             setSize(800,600);
             buffer = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
@@ -25,6 +28,19 @@ public class TicTacPanel extends JPanel implements MouseListener {
             bg.setColor(Color.BLACK);
             bg.fillRect(0,0,getWidth(),getHeight());
             bg.setColor(Color.WHITE);
+            for (int x = 0; x < locations.length; x++) {
+                for (int y = 0; y < locations.length; y++) {
+                    for (int z = 0; z < locations.length; z++) {
+                        //locations[x][y][z] =
+                    }
+                }
+            }
+            bg.drawRect(10,10,40,40);
+            bg.drawRect(10,10,40,40);
+            bg.drawRect(10,10,40,40);
+            bg.drawRect(10,10,40,40);
+            bg.drawRect(10,10,40,40);
+            bg.drawRect(10,10,40,40);
             bg.drawRect(10,10,40,40);
 
 
