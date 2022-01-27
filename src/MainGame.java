@@ -1,8 +1,10 @@
 public class MainGame {
     public static void main(String[] args) {
-        System.out.println("Test");
-        System.out.println("Test 2");
-        System.out.println("Test 2");
-        new TicTacFrame("TicTac");
+        GameRun game = new GameRun();
+
+
+        for (int i = 0; i < 15; i++) {
+            game.requestTurn();
+        }
     }
 }
