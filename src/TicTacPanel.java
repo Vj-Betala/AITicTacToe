@@ -28,21 +28,14 @@ public class TicTacPanel extends JPanel implements MouseListener {
         bg.setColor(Color.BLACK);
         bg.fillRect(0,0,getWidth(),getHeight());
         bg.setColor(Color.WHITE);
+
         for (int x = 0; x < locations.length; x++) {
             for (int y = 0; y < locations.length; y++) {
                 for (int z = 0; z < locations.length; z++) {
-                    bg.drawRect(40,40,40,40);
+                    bg.drawRect(40 + 40*x + 180*z,400 + 40*y - 120*z,40,40);
                 }
             }
         }
-        bg.drawRect(10,10,40,40);
-        bg.drawRect(10,10,40,40);
-        bg.drawRect(10,10,40,40);
-        bg.drawRect(10,10,40,40);
-        bg.drawRect(10,10,40,40);
-        bg.drawRect(10,10,40,40);
-        bg.drawRect(10,10,40,40);
-
 
         g.drawImage(buffer,0,0,null);
     }
