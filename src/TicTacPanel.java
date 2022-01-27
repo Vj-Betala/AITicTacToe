@@ -11,7 +11,7 @@ import java.util.Random;
 public class TicTacPanel extends JPanel implements MouseListener {
     private Random rand;
     private BufferedImage buffer;
-    int[][][] locations = new int[4][4][4];
+    int[][][] locations;
     char letter;
     String name;
 
@@ -21,6 +21,14 @@ public class TicTacPanel extends JPanel implements MouseListener {
         buffer = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
         addMouseListener(this);
         rand = new Random();
+        locations = new int[4][4][4];
+        for (int x = 0; x < locations.length; x++) {
+            for (int y = 0; y < locations.length; y++) {
+                for (int z = 0; z < locations.length; z++) {
+                    locations[x][y][z] =
+                }
+            }
+        }
     }
 
     public void paint(Graphics g) {
@@ -32,6 +40,7 @@ public class TicTacPanel extends JPanel implements MouseListener {
         for (int x = 0; x < locations.length; x++) {
             for (int y = 0; y < locations.length; y++) {
                 for (int z = 0; z < locations.length; z++) {
+                    locations[x][y][z] =
                     bg.drawRect(40 + 40*x + 180*z,400 + 40*y - 120*z,40,40);
                 }
             }
