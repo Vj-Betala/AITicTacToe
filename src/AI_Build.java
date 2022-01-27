@@ -1,5 +1,6 @@
-public class AI_Build implements PlayerInt{
-    private Location move = new Location(0,0,0);
+public class AI_Build extends MainPlayer{
+    private Location move;
+
 
     @Override
     public char getLetter() {
@@ -8,7 +9,16 @@ public class AI_Build implements PlayerInt{
 
     @Override
     public Location getMove(char[][][] board) {
-        return null;
+
+        int x = 0, y = 0, z = 0;
+        do{
+            x = (int) (Math.random()*4);
+            y = (int) (Math.random()*4);
+            z = (int) (Math.random()*4);
+        } while (board[z][y][x] != 0);
+
+        move = new Location(x,y,z);
+        return move;
     }
 
     @Override

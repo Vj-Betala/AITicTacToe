@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class BoardGame {
 
     private char[][][] listData;
@@ -26,5 +28,10 @@ public class BoardGame {
 
     public char[][][] getListData() {
         return listData;
+    }
+
+    @Override
+    public String toString() {
+        return "" + Arrays.deepToString(listData);
     }
 }
