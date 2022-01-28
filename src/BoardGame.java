@@ -13,7 +13,7 @@ public class BoardGame {
     }
 
     public boolean addChar(char c, Location l) {
-        if(listData[l.getSheet()][l.getRow()][l.getCol()] == 0) {
+        if(listData[l.getSheet()][l.getRow()][l.getCol()] == '-') {
             listData[l.getSheet()][l.getRow()][l.getCol()] = c;
             return true;
         }
@@ -22,7 +22,7 @@ public class BoardGame {
 
     public Character removerChar(Location l) {
         Character c = listData[l.getSheet()][l.getRow()][l.getCol()];
-        listData[l.getSheet()][l.getRow()][l.getCol()] = 0;
+        listData[l.getSheet()][l.getRow()][l.getCol()] = '-';
         return c;
     }
 

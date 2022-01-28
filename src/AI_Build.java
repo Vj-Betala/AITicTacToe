@@ -1,10 +1,8 @@
 public class AI_Build extends MainPlayer{
     private Location move;
 
-
-    @Override
-    public char getLetter() {
-        return 0;
+    public AI_Build(char x){
+        super(x);
     }
 
     @Override
@@ -15,16 +13,12 @@ public class AI_Build extends MainPlayer{
             x = (int) (Math.random()*4);
             y = (int) (Math.random()*4);
             z = (int) (Math.random()*4);
-        } while (board[z][y][x] != 0);
+        } while (board[z][y][x] != '-');
 
         move = new Location(x,y,z);
         return move;
     }
 
-    @Override
-    public String getName() {
-        return null;
-    }
 
     @Override
     public void reset() {

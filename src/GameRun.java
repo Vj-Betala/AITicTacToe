@@ -1,25 +1,43 @@
+import com.sun.corba.se.impl.oa.poa.AOMEntry;
+
 public class GameRun {
 
-    private AI_Build ai1;
+    private MainPlayer playerx, playero;
     private BoardGame board;
     private boolean isPlayerXTurn = true;
 
+
+    // TODO: 1/28/22 Add setplayers to constructor
+
     public GameRun() {
-        ai1 = new AI_Build();
         board = new BoardGame();
     }
 
-    public void setPlayers(boolean player1, boolean player2) {
+    public void setPlayers(int player1, int player2) {
+        if (player1 == 0){
+            this.playerx = new HumanPlayer('x');
+        } else {
+            this.playerx = new AI_Build('x');
+        }
 
+        if (player2 == 0) {
+            this.playero = new HumanPlayer('o');
+        } else {
+            this.playero = new AI_Build('o');
+        }
     }
 
     public void requestTurn(){
         if(isPlayerXTurn){
-            Location temp = ai1.getMove(board.getListData());
+            Location temp = playerx.getMove(board.getListData());
             board.addChar('x', temp);
         }
 
         System.out.println(board);
+    }
+
+    public BoardGame getBoard() {
+        return board;
     }
 }
 

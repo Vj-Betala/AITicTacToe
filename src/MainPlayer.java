@@ -1,8 +1,14 @@
 public class MainPlayer implements PlayerInt{
 
+    private char letter;
+
+    public MainPlayer(char x) {
+        letter = x;
+    }
+
     @Override
     public char getLetter() {
-        return 0;
+        return letter;
     }
 
     @Override
