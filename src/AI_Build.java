@@ -1,21 +1,32 @@
-public class AI_Build extends MainPlayer{
+public class AI_Build extends MainPlayer {
     private Location move;
+    private char letter;
 
+    public AI_Build(int x) {
+        if (x == 0)
+            setLetter('x');
+        else
+            setLetter('o');
+    }
 
     @Override
     public char getLetter() {
-        return 0;
+        return letter;
+    }
+
+    public void setLetter(char letter) {
+        this.letter = letter;
     }
 
     @Override
     public Location getMove(char[][][] board) {
 
-        int x = 0, y = 0, z = 0;
-        do{
+        int x, y, z;
+        do {
             x = (int) (Math.random()*4);
             y = (int) (Math.random()*4);
             z = (int) (Math.random()*4);
-        } while (board[z][y][x] != 0);
+        } while (board[z][y][x] != '-');
 
         move = new Location(x,y,z);
         return move;

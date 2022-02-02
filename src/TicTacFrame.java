@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TicTacFrame extends JFrame {
-    public TicTacFrame(String title)
+    public TicTacFrame(String title, boolean x, boolean y)
     {
         //creates frame with title
         super(title);
@@ -13,7 +13,7 @@ public class TicTacFrame extends JFrame {
         //creates the frame
         pack();
         //creates the panel
-        TicTacPanel p = new TicTacPanel();
+        TicTacPanel p = new TicTacPanel(x, y);
         //get insets
         Insets insets = getInsets();
         //calculating window size

@@ -5,13 +5,17 @@ public class GameRun {
     private boolean isPlayerXTurn = true;
 
     public GameRun() {
-        ai1 = new AI_Build();
+        //ai1 = new AI_Build();
         board = new BoardGame();
     }
 
     public void setPlayers(boolean player1, boolean player2) {
 
     }
+
+//    public int winCondition() {
+        //find if row is complete x return  find if row in complete o
+  //  }
 
     public void requestTurn(){
         if(isPlayerXTurn){
@@ -20,6 +24,30 @@ public class GameRun {
         }
 
         System.out.println(board);
+    }
+
+    public AI_Build getAi1() {
+        return ai1;
+    }
+
+    public void setAi1(AI_Build ai1) {
+        this.ai1 = ai1;
+    }
+
+    public BoardGame getBoard() {
+        return board;
+    }
+
+    public void setBoard(BoardGame board) {
+        this.board = board;
+    }
+
+    public boolean isPlayerXTurn() {
+        return isPlayerXTurn;
+    }
+
+    public void setPlayerXTurn(boolean playerXTurn) {
+        isPlayerXTurn = playerXTurn;
     }
 }
 
