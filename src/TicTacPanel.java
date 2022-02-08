@@ -195,7 +195,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
     @Override
     public void keyTyped(KeyEvent e) {
         char dir = e.getKeyChar();
-        if (dir == 'r' && (x != 1 || y != 1) && (board.isFull() || (board.xWinCondition(board.winningMoves()) != BoardGame.TIE))) {
+        if (dir == 'r' && (x != 1 || y != 1 ) && (board.isFull() || (board.xWinCondition(board.winningMoves()) != BoardGame.TIE))) {
             board = new BoardGame();
             repaint();
         }
