@@ -3,19 +3,35 @@ import java.util.Scanner;
 public class MainGame {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
-        int a, b;
-        boolean x, y;
+        int x, y;
         do {
-            System.out.println("Is X a human? 0 for false, 1 for true");
-            a = keyboard.nextInt();
-        } while (a != 1 && a != 0);
-        x = a == 1;
+            System.out.println("Player List:" + "\n"
+                    + "Human - 0" + "\n"
+                    + "Random AI - 1" + "\n"
+                    + "Coming Soon..." + "\n"
+                    + "Select Player 1:");
+            x = keyboard.nextInt();
+        } while (x != 1 && x != 0); // change while statement after adding more AIs
         do {
-            System.out.println("Is O a human? 0 for false, 1 for true");
-            b = keyboard.nextInt();
-        } while (b != 1 && b != 0);
-        y = b == 1;
+            System.out.println("Player List:" + "\n"
+                    + "Human - 0" + "\n"
+                    + "Random AI - 1" + "\n"
+                    + "Coming Soon..." + "\n"
+                    + "Select Player 2:");
+            y = keyboard.nextInt();
+        } while (y != 1 && y != 0); // change while statement after adding more AIs
+        int games, waitNextMove, waitWinningMove;
+        if (x != 0 && y != 0) {
+            System.out.println("How many games should be played?");
+            games = keyboard.nextInt();
+            System.out.println("How many milliseconds between each move? (250, 500, 1000)");
+            waitNextMove = keyboard.nextInt();
+            System.out.println("How many milliseconds between each game? (2000, 3000)");
+            waitWinningMove = keyboard.nextInt();
+        }
+        else
+            games = waitNextMove = waitWinningMove = 0;
 
-        new TicTacFrame("TicTac", x, y);
+        new TicTacFrame("TicTac", x, y, games, waitNextMove, waitWinningMove);
     }
 }
