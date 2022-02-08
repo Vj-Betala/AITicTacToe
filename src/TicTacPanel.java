@@ -33,6 +33,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
         setSize(800,600);
         buffer = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
         addMouseListener(this);
+        addKeyListener(this);
         if (x != 0)
             ai1 = new AI_Build(0);
         if (y != 0)
@@ -62,24 +63,24 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
         bg.setColor(Color.GREEN);
         if (moves != null)
             for (int x = 0; x < moves.length; x++) {
-                if (condition == board.WIN)
+                if (condition == BoardGame.WIN)
                     bg.drawString("x", 40 + 40 * moves[x][0] + 180 * moves[x][2] + 8, 400 + 40 * moves[x][1] - 120 * moves[x][2] + 35);
                 else
                     bg.drawString("o", 40 + 40 * moves[x][0] + 180 * moves[x][2] + 8, 400 + 40 * moves[x][1] - 120 * moves[x][2] + 35);
             }
         bg.setFont(g.getFont().deriveFont(30.00f));
-        if (board.isFull() && condition == board.TIE)
+        if (board.isFull() && condition == BoardGame.TIE)
             bg.drawString("It was a Tie.", getWidth() / 2 - 80, 40);
-        else if (condition == board.LOSE)
+        else if (condition == BoardGame.LOSE)
             bg.drawString("O won the game.",getWidth()/2 - 100,40);
-        else if (condition == board.WIN)
+        else if (condition == BoardGame.WIN)
             bg.drawString("X won the game.",getWidth()/2 - 100,40);
         g.drawImage(buffer,0,0,null);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if ((x != 1 && y != 1) && !board.isFull() && board.xWinCondition(board.winningMoves()) == board.TIE) {
+        if ((x != 1 && y != 1) && !board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE) {
             int i = e.getX();
             int j = e.getY();
             if (x == 0 && y == 0) {
@@ -153,7 +154,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
     public void run() {
         if(x!=0 && y!=0){
             for(int i = 0; i < games; i++){
-                while(!board.isFull() && board.xWinCondition(board.winningMoves()) == board.TIE){
+                while(!board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE){
                     if (turn) {
                         Location move = getAi1().getMove(getBoard().getListData());
                         getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'x';
@@ -170,9 +171,9 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                         e.printStackTrace();
                     }
                 }
-                if (board.xWinCondition(board.winningMoves()) == board.WIN)
+                if (board.xWinCondition(board.winningMoves()) == BoardGame.WIN)
                     xwins++;
-                else if (board.xWinCondition(board.winningMoves()) == board.LOSE)
+                else if (board.xWinCondition(board.winningMoves()) == BoardGame.LOSE)
                     ywins++;
                 board = new BoardGame();
                 try{
@@ -194,7 +195,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
     @Override
     public void keyTyped(KeyEvent e) {
         char dir = e.getKeyChar();
-        if (dir == 'r' && x != 1 || y != 1 && (board.isFull() || board.xWinCondition(board.winningMoves()) != board.TIE)) {
+        if (dir == 'r' && (x != 1 || y != 1 ) && (board.isFull() || (board.xWinCondition(board.winningMoves()) != BoardGame.TIE))) {
             board = new BoardGame();
             repaint();
         }
