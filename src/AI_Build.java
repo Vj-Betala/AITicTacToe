@@ -1,12 +1,28 @@
 public class AI_Build extends MainPlayer {
     private Location move;
     private char letter;
+    public boolean emptyBoard;
 
     public AI_Build(int x) {
         if (x == 0)
             setLetter('x');
         else
             setLetter('o');
+
+        emptyBoard = true;
+    }
+
+    public void isEmptyBoard(char[][][] board){
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                for(int k = 0; k < 4; k++){
+                    if(board[i][j][k] == '-')
+                        emptyBoard = false;
+                    //Program might crash, because location is null
+
+                }
+            }
+        }
     }
 
     @Override

@@ -34,12 +34,14 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
         buffer = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_4BYTE_ABGR);
         addMouseListener(this);
         addKeyListener(this);
-        if (x != 0)
-            ai1 = new AI_Build(0);
-        if (y != 0)
-            ai2 = new AI_Build(1);
         board = new BoardGame();
         rand = new Random();
+        if (x != 0) {
+            ai1 = new StraightLine_AI(0);
+            ai1.isEmptyBoard(board.getListData());
+        }
+        if (y != 0)
+        {ai2 = new AI_Build(1);}
         this.x = x; this.y = y; turn = true; this.games = games; this.waitNextMove = waitNextMove; this.waitWinningMove = waitWinningMove;
     }
 
@@ -171,11 +173,15 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                         e.printStackTrace();
                     }
                 }
+
+                turn = true;
+
                 if (board.xWinCondition(board.winningMoves()) == BoardGame.WIN)
                     xwins++;
                 else if (board.xWinCondition(board.winningMoves()) == BoardGame.LOSE)
                     ywins++;
-                board = new BoardGame();
+
+                board.clear();
                 try{
                     Thread.sleep(waitWinningMove);
                     repaint();
@@ -196,7 +202,8 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
     public void keyTyped(KeyEvent e) {
         char dir = e.getKeyChar();
         if (dir == 'r' && (x != 1 || y != 1 ) && (board.isFull() || (board.xWinCondition(board.winningMoves()) != BoardGame.TIE))) {
-            board = new BoardGame();
+            board.clear();
+            turn = true;
             repaint();
         }
     }
