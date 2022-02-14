@@ -18,8 +18,6 @@ public class AI_Build extends MainPlayer {
                 for(int k = 0; k < 4; k++){
                     if(board[i][j][k] == '-')
                         emptyBoard = false;
-                    //Program might crash, because location is null
-
                 }
             }
         }

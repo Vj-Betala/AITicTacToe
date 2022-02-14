@@ -1,34 +1,59 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class newStraightLine_AI extends AI_Build{
 
-    public newStraightLine_AI(char x){
+    public newStraightLine_AI(int x){
         super(x);
     }
 
     @Override
     public Location getMove(char[][][] board) {
-        return super.getMove(board);
+        return getMoveHelper(board);
     }
 
-    private Location getMoveHelper(char[][][] board, Location loc){
-        int win = xWinCondition(checkWInner(board), board);
+    private Location getMoveHelper(char[][][] board){
+            ArrayList<Location> zeros = new ArrayList<>();
+            ArrayList<Location> ones = new ArrayList<>();
+            ArrayList<Location> doubles = new ArrayList<>();
+            ArrayList<Location> triples = new ArrayList<>();
+            ArrayList<Location> quadruples = new ArrayList<>();
 
-        if(win != BoardGame.TIE){
-            return loc;
-        }
-
-        else {
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    for (int k = 0; k < 4; k++) {
-                        if(board[i][j][k] == '-'){
-                            board[i][j][k] = getLetter();
-                            loc = new Location(k,j,i);
-
+            for(int i = 0; i < 4; i++){
+                for(int j = 0; j < 4; j++){
+                    for(int k = 0; k < 4; k++) {
+                        if(board[i][j][k] == '-') {
+                            int[] scores = getScore(board, new Location(k,j,i), getLetter());
+                            if(scores[0] > 0) {
+                                zeros.add(new Location(k,j,i));
+                            }
+                            else if(scores[1] > 0) {
+                                ones.add(new Location(k,j,i));
+                            }
+                            else if(scores[2] > 0) {
+                                doubles.add(new Location(k,j,i));
+                            }
+                            else if(scores[3] > 0) {
+                                triples.add(new Location(k,j,i));
+                            }else if(scores[4] > 0) {
+                                quadruples.add(new Location(k,j,i));
+                            }
                         }
                     }
                 }
             }
-        }
+
+            if(quadruples.size() > 0){
+                return quadruples.get((int) (Math.random()*quadruples.size()));
+            }if(triples.size() > 0){
+                return triples.get((int) (Math.random()*triples.size()));
+            }if(doubles.size() > 0){
+                return doubles.get((int) (Math.random()*doubles.size()));
+            }if(ones.size() > 0){
+                return ones.get((int) (Math.random()*ones.size()));
+            }if(zeros.size() > 0){
+                return zeros.get((int) (Math.random()*zeros.size()));
+            }
 
 
         return null;
@@ -113,5 +138,389 @@ public class newStraightLine_AI extends AI_Build{
 
 
         return null;
+    }
+    public int[] getScore(char[][][] board, Location loc, char x){
+        char player1, player2;
+        if(x == 'x'){
+            player1 = 'x';
+            player2 = 'o';
+        } else {
+            player1 = 'o';
+            player2 = 'x';
+        }
+
+        int zero = 0, ones = 0, doubles = 0, tripes = 0, quads = 0;
+        int column = loc.getCol(), row = loc.getRow(), sheet = loc.getSheet(), count = 1;
+
+        {
+            for (int i = 0; i < 4; i++) {
+                if (board[column][row][i] == player1) {
+                    count++;
+                } else if (board[column][row][i] == player2) {
+                    count = 0;
+                }
+
+            }
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            for (int i = 0; i < 4; i++) {
+                if (board[column][i][sheet] == player1) {
+                    count++;
+                } else if (board[column][i][sheet] == player2) {
+                    count = 0;
+                }
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            for (int i = 0; i < 4; i++) {
+                if (board[i][row][sheet] == player1) {
+                    count++;
+                } else if (board[i][row][sheet] == player2) {
+                    count = 0;
+                }
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (column == row) {
+                count = 1;
+                if (board[0][0][sheet] == player1)
+                    count++;
+                if (board[1][1][sheet] == player1)
+                    count++;
+                if (board[2][2][sheet] == player1)
+                    count++;
+                if (board[3][3][sheet] == player1)
+                    count++;
+                if (board[0][0][sheet] == player2 || board[1][1][sheet] == player2 || board[2][2][sheet] == player2 || board[3][3][sheet] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (column + row == 3) {
+                count = 1;
+                if (board[0][3][sheet] == player1)
+                    count++;
+                if (board[1][2][sheet] == player1)
+                    count++;
+                if (board[2][1][sheet] == player1)
+                    count++;
+                if (board[3][0][sheet] == player1)
+                    count++;
+                if (board[0][3][sheet] == player2 || board[1][2][sheet] == player2 || board[2][1][sheet] == player2 || board[3][0][sheet] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (column == sheet) {
+                count = 1;
+                if (board[0][row][0] == player1)
+                    count++;
+                if (board[1][row][1] == player1)
+                    count++;
+                if (board[2][row][2] == player1)
+                    count++;
+                if (board[3][row][3] == player1)
+                    count++;
+                if (board[0][row][0] == player2 || board[1][row][1] == player2 || board[2][row][2] == player2 || board[3][row][3] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (column + sheet == 3) {
+                count = 1;
+                if (board[0][row][3] == player1)
+                    count++;
+                if (board[1][row][2] == player1)
+                    count++;
+                if (board[2][row][1] == player1)
+                    count++;
+                if (board[3][row][0] == player1)
+                    count++;
+                if (board[0][row][3] == player2 || board[1][row][2] == player2 || board[2][row][1] == player2 || board[3][row][0] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (row == sheet) {
+                count = 1;
+                if (board[column][0][0] == player1)
+                    count++;
+                if (board[column][1][1] == player1)
+                    count++;
+                if (board[column][2][2] == player1)
+                    count++;
+                if (board[column][3][3] == player1)
+                    count++;
+                if (board[column][3][3] == player2 || board[column][2][2] == player2 || board[column][1][1] == player2 || board[column][0][0] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (row + sheet == 3) {
+                count = 1;
+                if (board[column][0][3] == player1)
+                    count++;
+                if (board[column][1][2] == player1)
+                    count++;
+                if (board[column][2][1] == player1)
+                    count++;
+                if (board[column][3][0] == player1)
+                    count++;
+                if (board[column][3][0] == player2 || board[column][2][1] == player2 || board[column][1][2] == player2 || board[column][0][3] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (sheet + row + column == row * 3) {
+                count = 1;
+                if (board[0][0][0] == player1)
+                    count++;
+                if (board[1][1][1] == player1)
+                    count++;
+                if (board[2][2][2] == player1)
+                    count++;
+                if (board[3][3][3] == player1)
+                    count++;
+                if (board[3][3][3] == player2 || board[1][1][1] == player2 || board[2][2][2] == player2 || board[0][0][0] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+        {
+            count = 1;
+            if (sheet + row + column == row * 3) {
+                count = 1;
+                if (board[0][0][0] == player1)
+                    count++;
+                if (board[1][1][1] == player1)
+                    count++;
+                if (board[2][2][2] == player1)
+                    count++;
+                if (board[3][3][3] == player1)
+                    count++;
+                if (board[3][3][3] == player2 || board[1][1][1] == player2 || board[2][2][2] == player2 || board[0][0][0] == player2)
+                    count = 0;
+            }
+
+            switch (count) {
+                case 0:
+                    zero++;
+                    break;
+                case 1:
+                    ones++;
+                    break;
+                case 2:
+                    doubles++;
+                    break;
+                case 3:
+                    tripes++;
+                    break;
+                case 4:
+                    quads++;
+                    break;
+            }
+        }
+
+
+
+        return new int[] {zero, ones, doubles, tripes, quads};
+
     }
 }
