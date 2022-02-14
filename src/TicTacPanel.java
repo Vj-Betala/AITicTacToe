@@ -41,7 +41,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
             ai1.isEmptyBoard(board.getListData());
         }
         if (y != 0)
-        {ai2 = new AI_Build(1);}
+        {ai2 = new StraightLine_AI(1);}
         this.x = x; this.y = y; turn = true; this.games = games; this.waitNextMove = waitNextMove; this.waitWinningMove = waitWinningMove;
     }
 
@@ -82,9 +82,9 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        int i = e.getX();
+        int j = e.getY();
         if ((x != 1 && y != 1) && !board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE) {
-            int i = e.getX();
-            int j = e.getY();
             if (x == 0 && y == 0) {
                 if (turn) {
                     for (int a = 0; a < getBoard().getListData().length; a++) {
@@ -111,24 +111,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                         }
                     }
                 }
-            } else if (x == 0) {
-                if (turn) {
-                    for (int a = 0; a < getBoard().getListData().length; a++) {
-                        for (int b = 0; b < getBoard().getListData()[0].length; b++) {
-                            for (int c = 0; c < getBoard().getListData()[0][0].length; c++) {
-                                Rectangle r = new Rectangle(40 + 40 * a + 180 * c, 400 + 40 * b - 120 * c, 40, 40);
-                                if (r.contains(i, j) && getBoard().getListData()[a][b][c] == '-') {
-                                    getBoard().getListData()[a][b][c] = 'x';
-                                    turn = false;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    Location move = getAi2().getMove(getBoard().getListData());
-                    getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'o';
-                    turn = true;
-                }
+            }
             } else if (y == 0) {
                 if (!turn) {
                     for (int a = 0; a < getBoard().getListData().length; a++) {
@@ -147,6 +130,24 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'x';
                     turn = false;
                 }
+            }
+        else if (x == 0 && y != 0) {
+            if (turn) {
+                for (int a = 0; a < getBoard().getListData().length; a++) {
+                    for (int b = 0; b < getBoard().getListData()[0].length; b++) {
+                        for (int c = 0; c < getBoard().getListData()[0][0].length; c++) {
+                            Rectangle r = new Rectangle(40 + 40 * a + 180 * c, 400 + 40 * b - 120 * c, 40, 40);
+                            if (r.contains(i, j) && getBoard().getListData()[a][b][c] == '-') {
+                                getBoard().getListData()[a][b][c] = 'x';
+                                turn = false;
+                            }
+                        }
+                    }
+                }
+            } else {
+                Location move = getAi2().getMove(getBoard().getListData());
+                getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'o';
+                turn = true;
             }
         }
         repaint();

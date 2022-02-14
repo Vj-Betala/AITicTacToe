@@ -83,6 +83,7 @@ public class StraightLine_AI extends AI_Build {
 
     private int getmoveChecker(char[][][] board, int maxDepth, boolean currentPlayer){
         int win = xWinCondition(checkWInner(board), board);
+        int bestScore = 0;
 
         if (win != BoardGame.TIE ){
             if (getLetter() == 'x' && BoardGame.WIN == win){
@@ -99,9 +100,8 @@ public class StraightLine_AI extends AI_Build {
             return 0;
         }
 
-        int bestScore = 0;
 
-        if(win == BoardGame.TIE) {
+        else if(win == BoardGame.TIE) {
             if (currentPlayer) {
                 bestScore = -1000;
                 for (int i = 0; i < 4; i++) {
