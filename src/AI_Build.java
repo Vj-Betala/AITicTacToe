@@ -2,6 +2,7 @@ public class AI_Build extends MainPlayer {
     private Location move;
     private char letter, oLetter;
     public boolean emptyBoard;
+    public int OSCOREWEIGHT;
 
     public AI_Build(int x) {
         if (x == 0) {
@@ -67,5 +68,9 @@ public class AI_Build extends MainPlayer {
     @Override
     public void reset() {
 
+    }
+
+    public void setOSCOREWEIGHT(int y) {
+        OSCOREWEIGHT = y;
     }
 }

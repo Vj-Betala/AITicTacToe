@@ -1,12 +1,8 @@
-import java.util.ArrayList;
-
-//board[s][r][c]
-//new Loc(c,r,s)
-
 public class newStraightLine_AI extends AI_Build{
 
-    public newStraightLine_AI(int x){
+    public newStraightLine_AI(int x, int y){
         super(x);
+        OSCOREWEIGHT = y;
     }
 
     @Override
@@ -24,7 +20,8 @@ public class newStraightLine_AI extends AI_Build{
                     for(int k = 0; k < 4; k++) {
                         if(board[i][j][k] == '-') {
                             int[] scores = getScore(board, new Location(k,j,i), getLetter());
-                            score.add(new PriorityNode<Location>(new Location(k,j,i), (scores[4] * 1000 + scores[3] * 100 + scores[2] * 10 + scores[1])));
+                            int[] oScores = getScore(board, new Location(k,j,i), getoLetter());
+                            score.add(new PriorityNode<>(new Location(k, j, i), ((scores[3] * 100 + oScores[3] * OSCOREWEIGHT * 10) + (scores[2] * 10 + oScores[2]*OSCOREWEIGHT) + (scores[1]))));
 
                         }
                     }
@@ -480,8 +477,9 @@ public class newStraightLine_AI extends AI_Build{
         }
 
 
-
         return new int[] {zero, ones, doubles, tripes, quads};
 
     }
+
+
 }

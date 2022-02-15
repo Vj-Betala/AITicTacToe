@@ -42,7 +42,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     ai1 = new AI_Build(0);
                     break;
                 case 2:
-                    ai1 = new newStraightLine_AI(0);
+                    ai1 = new newStraightLine_AI(0, 1);
                     break;
             }
             ai1.isEmptyBoard(board.getListData());
@@ -53,7 +53,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     ai2 = new AI_Build(1);
                     break;
                 case 2:
-                    ai2 = new newStraightLine_AI(1);
+                    ai2 = new newStraightLine_AI(1, 5);
                     break;
             }
         }
@@ -176,41 +176,42 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
     @Override
     public void run() {
         if(x!=0 && y!=0){
-            for(int i = 0; i < games; i++){
-                while(!board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE){
-                    if (turn) {
-                        Location move = getAi1().getMove(getBoard().getListData());
-                        getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'x';
-                        turn = false;
-                    } else {
-                        Location move = getAi2().getMove(getBoard().getListData());
-                        getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'o';
-                        turn = true;
+
+                for (int i = 0; i < games; i++) {
+                    while (!board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE) {
+                        if (turn) {
+                            Location move = getAi1().getMove(getBoard().getListData());
+                            getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'x';
+                            turn = false;
+                        } else {
+                            Location move = getAi2().getMove(getBoard().getListData());
+                            getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'o';
+                            turn = true;
+                        }
+                        try {
+                            repaint();
+                            Thread.sleep(waitNextMove);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                    try{
+
+                    turn = true;
+
+                    if (board.xWinCondition(board.winningMoves()) == BoardGame.WIN)
+                        xwins++;
+                    else if (board.xWinCondition(board.winningMoves()) == BoardGame.LOSE)
+                        ywins++;
+
+                    board.clear();
+                    try {
+                        Thread.sleep(waitWinningMove);
                         repaint();
-                        Thread.sleep(waitNextMove);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-
-                turn = true;
-
-                if (board.xWinCondition(board.winningMoves()) == BoardGame.WIN)
-                    xwins++;
-                else if (board.xWinCondition(board.winningMoves()) == BoardGame.LOSE)
-                    ywins++;
-
-                board.clear();
-                try{
-                    Thread.sleep(waitWinningMove);
-                    repaint();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-            System.out.println("X won " + xwins + " and Y won " + ywins + ". There were " + (games-xwins-ywins) + " ties.");
+                System.out.println("X won " + xwins + " and Y won " + ywins + ". There were " + (games - xwins - ywins) + " ties.");
         }
     }
 
