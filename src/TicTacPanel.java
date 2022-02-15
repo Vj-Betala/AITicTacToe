@@ -37,11 +37,26 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
         board = new BoardGame();
         rand = new Random();
         if (x != 0) {
-            ai1 = new newStraightLine_AI(0);
+            switch(x){
+                case 1:
+                    ai1 = new AI_Build(0);
+                    break;
+                case 2:
+                    ai1 = new newStraightLine_AI(0);
+                    break;
+            }
             ai1.isEmptyBoard(board.getListData());
         }
-        if (y != 0)
-        {ai2 = new AI_Build(1);}
+        if (y != 0) {
+            switch(y){
+                case 1:
+                    ai2 = new AI_Build(1);
+                    break;
+                case 2:
+                    ai2 = new newStraightLine_AI(1);
+                    break;
+            }
+        }
         this.x = x; this.y = y; turn = true; this.games = games; this.waitNextMove = waitNextMove; this.waitWinningMove = waitWinningMove;
     }
 
@@ -55,6 +70,11 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
             for (int y = 0; y < getBoard().getListData()[0].length; y++) {
                 for (int z = 0; z < getBoard().getListData()[0][0].length; z++) {
                     bg.drawRect(40 + 40*x + 180*z,400 + 40*y - 120*z,40,40);
+//                    if (x==0 && y==0 && z==0){
+//                        bg.setColor(Color.red);
+//                        bg.fillRect(40 + 40*x + 180*z,400 + 40*y - 120*z,40,40);
+//                    }
+//                    bg.setColor(Color.white);
                     if (getBoard().getListData()[x][y][z] != '-')
                         bg.drawString("" + getBoard().getListData()[x][y][z],40 + 40*x + 180*z + 8,400 + 40*y - 120*z + 35);
                 }

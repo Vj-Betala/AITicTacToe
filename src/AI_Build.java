@@ -1,13 +1,18 @@
 public class AI_Build extends MainPlayer {
     private Location move;
-    private char letter;
+    private char letter, oLetter;
     public boolean emptyBoard;
 
     public AI_Build(int x) {
-        if (x == 0)
+        if (x == 0) {
             setLetter('x');
-        else
+            setoLetter('o');
+        }
+
+        else {
             setLetter('o');
+            setoLetter('x');
+        }
 
         emptyBoard = true;
     }
@@ -26,6 +31,14 @@ public class AI_Build extends MainPlayer {
     @Override
     public char getLetter() {
         return letter;
+    }
+
+    public char getoLetter() {
+        return oLetter;
+    }
+
+    public void setoLetter(char oLetter) {
+        this.oLetter = oLetter;
     }
 
     public void setLetter(char letter) {

@@ -8,18 +8,18 @@ public class MainGame {
             System.out.println("Player List:" + "\n"
                     + "Human - 0" + "\n"
                     + "Random AI - 1" + "\n"
-                    + "Coming Soon..." + "\n"
+                    + "StraightLine - 2" + "\n"
                     + "Select Player 1:");
             x = keyboard.nextInt();
-        } while (x != 1 && x != 0); // change while statement after adding more AIs
+        } while (x > 2); // change while statement after adding more AIs
         do {
             System.out.println("Player List:" + "\n"
                     + "Human - 0" + "\n"
                     + "Random AI - 1" + "\n"
-                    + "Coming Soon..." + "\n"
+                    + "StraightLine - 2" + "\n"
                     + "Select Player 2:");
             y = keyboard.nextInt();
-        } while (y != 1 && y != 0); // change while statement after adding more AIs
+        } while (y > 2); // change while statement after adding more AIs
         int games, waitNextMove, waitWinningMove;
         if (x != 0 && y != 0) {
             System.out.println("How many games should be played?");
