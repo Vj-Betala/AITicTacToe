@@ -29,8 +29,8 @@ public class TicTacFrame extends JFrame {
         pack();
         //show the screen
         setVisible(true);
-
-        if(x!=0 || y!=0){
+        //TODO: look if there should be other thread only if both or even if there is only one AI
+        if(x!=0 && y!=0){
             Thread t = new Thread(p);
             t.start();
         }
