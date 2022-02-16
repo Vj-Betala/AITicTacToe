@@ -1,0 +1,37 @@
+public class secondAIVR0173 extends AI_Build{
+
+    public secondAIVR0173(int x){
+        super(x);
+        OSCOREWEIGHT = 1;
+    }
+
+    @Override
+    public Location getMove(char[][][] board) {
+        return getMoveHelper(board);
+    }
+
+    private Location getMoveHelper(char[][][] board){
+
+        MaxHeapLocation<Location> score = new MaxHeapLocation<>();
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                for(int k = 0; k < 4; k++) {
+                    if(board[i][j][k] == '-') {
+                        int[] scores = LocationScore.getScore(board, new Location(k,j,i), getLetter());
+                        int[] oScores = LocationScore.getScore(board, new Location(k,j,i), getoLetter());
+                        score.add(new HeapNode<>(new Location(k, j, i), ((scores[3] * 100 + oScores[3] * OSCOREWEIGHT * 10) + (scores[2] * 10 + oScores[2]*OSCOREWEIGHT) + (scores[1]))));
+
+                    }
+                }
+            }
+        }
+
+        return score.remove().getData();
+
+    }
+
+
+
+
+}

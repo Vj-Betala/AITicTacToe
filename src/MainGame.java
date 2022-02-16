@@ -11,7 +11,7 @@ public class MainGame {
                     + "StraightLine - 2" + "\n"
                     + "Select Player 1:");
             x = keyboard.nextInt();
-        } while (x > 2); // change while statement after adding more AIs
+        } while (x > 3); // change while statement after adding more AIs
         do {
             System.out.println("Player List:" + "\n"
                     + "Human - 0" + "\n"

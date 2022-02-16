@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInterface<E>{
+public class MaxHeap<E extends Comparable> implements HeapInterface<E>{
 
-    public ArrayList<E> listData;
+    private ArrayList<E> listData;
 
-    public MyPriorityQueue() {
+    public MaxHeap() {
         listData = new ArrayList<>();
     }
 
-//    @Override
+    @Override
     public boolean add(E item) {
 
         if(isEmpty()) {
@@ -20,7 +20,7 @@ public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInter
             listData.add(item);
             int indData = listData.size()-1;
             int parentInd = (indData-1)/2;
-            while(listData.get(indData).compareTo(listData.get(parentInd)) < 0){
+            while(listData.get(indData).compareTo(listData.get(parentInd)) > 0){
                 E initDataSwap = listData.get(parentInd);
 
 
@@ -37,24 +37,12 @@ public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInter
         return true;
     }
 
-    @Override
-    public boolean offer(E o) {
-        return add(o);
-    }
-
-    @Override
-    public E poll() {
-        if(empty())
-            return null;
-        return remove();
-    }
-
     public boolean insert(E item) {
         return add(item);
     }
 
 
-//    @Override
+    @Override
     public E remove() {
         E rmNode = listData.get(0);
         listData.set(0, (listData.get(size()-1)));
@@ -69,9 +57,9 @@ public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInter
         int leftChild =  (node * 2) + 1;
         int rightChild = (node * 2) + 2;
 
-        while(((size() > leftChild) && listData.get(leftChild).compareTo(listData.get(node)) < 0)
-                || ((size() > rightChild) && listData.get(rightChild).compareTo(listData.get(node)) < 0)){
-            if( (size() <= rightChild) || (listData.get(leftChild).compareTo(listData.get(rightChild)) < 0)){
+        while(((size() > leftChild) && listData.get(leftChild).compareTo(listData.get(node)) > 0)
+                || ((size() > rightChild) && listData.get(rightChild).compareTo(listData.get(node)) > 0)){
+            if( (size() <= rightChild) || (listData.get(leftChild).compareTo(listData.get(rightChild)) > 0)){
                 E initialData = listData.get(node);
                 listData.set(node, listData.get(leftChild));
                 listData.set(leftChild, initialData);
@@ -92,7 +80,7 @@ public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInter
     }
 
     @Override
-    public boolean empty() {
+    public boolean isEmpty() {
         return listData.isEmpty();
     }
 
@@ -101,27 +89,9 @@ public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInter
         return listData.size();
     }
 
-
     @Override
     public E get(int x) {
         return listData.get(x);
-    }
-
-    @Override
-    public E set(int x, E item) {
-        return listData.set(x,item);
-    }
-
-//    @Override
-    public E peek() {
-        if(isEmpty())
-            return null;
-        return get(0);
-    }
-
-//    @Override
-    public boolean isEmpty() {
-        return empty();
     }
 
     @Override
@@ -132,9 +102,5 @@ public class MyPriorityQueue<E extends Comparable> implements PriorityQueueInter
     @Override
     public String toString() {
         return listData.toString();
-    }
-
-    public E element() {
-        return peek();
     }
 }

@@ -42,7 +42,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     ai1 = new AI_Build(0);
                     break;
                 case 2:
-                    ai1 = new newStraightLine_AI(0, 1);
+                    ai1 = new secondAIVR0173(0);
                     break;
             }
             ai1.isEmptyBoard(board.getListData());
@@ -53,7 +53,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     ai2 = new AI_Build(1);
                     break;
                 case 2:
-                    ai2 = new newStraightLine_AI(1, 5);
+//                    ai2 = new newStraightLine_AI(1, 5);
                     break;
             }
         }
