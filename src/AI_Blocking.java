@@ -1,8 +1,4 @@
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AI_Blocking extends AI_Build {
     public AI_Blocking(int x) {
@@ -31,16 +27,16 @@ public class AI_Blocking extends AI_Build {
     public Location getMoveHelper(char[][] [] board, char l) {
         //if 3 me finish it
         doubtrip linfo = info(l, board);
-        if (linfo.triplemoves.size() != 0) {
-            int[][] line = linfo.triplemoves.get(0);
+        if (linfo.quadpotential.size() != 0) {
+            int[][] line = linfo.quadpotential.get(0);
             for (int x = 0; x < line.length; x++) {
                 if (board[line[x][0]][line[x][1]][line[x][2]] == '-')
                     return new Location(line[x][2], line[x][1], line[x][0]);
             }
         }
         doubtrip notlinfo = info(((l == 'x')?'o':'x'), board);
-        if (notlinfo.triplemoves.size() != 0) {
-            int[][] line = notlinfo.triplemoves.get(0);
+        if (notlinfo.quadpotential.size() != 0) {
+            int[][] line = notlinfo.quadpotential.get(0);
             for (int x = 0; x < line.length; x++) {
                 if (board[line[x][0]][line[x][1]][line[x][2]] == '-')
                     return new Location(line[x][2],line[x][1],line[x][0]);
@@ -49,9 +45,9 @@ public class AI_Blocking extends AI_Build {
         ArrayList<int[]> in = new ArrayList<>();
         int highcountdoubles = 0; int highscountsingle = 0; int highcountempty = 0;
         int[] finalspot = null;
-        if (notlinfo.pairmoves.size() != 0) {
-            for (int i = 0; i < notlinfo.pairmoves.size(); i++) {
-                int[][] line = notlinfo.pairmoves.get(i);
+        if (notlinfo.tripotential.size() != 0) {
+            for (int i = 0; i < notlinfo.tripotential.size(); i++) {
+                int[][] line = notlinfo.tripotential.get(i);
                 for (int x = 0; x < line.length; x++) {
                     if (board[line[x][0]][line[x][1]][line[x][2]] == '-')
                         in.add(line[x]);
@@ -77,9 +73,9 @@ public class AI_Blocking extends AI_Build {
         in = new ArrayList<>();
         int highcountdoubles2 = 0; int highscountsingle2 = 0; int highcountempty2 = 0;
         int[] finalspot2 = null;
-        if (linfo.pairmoves.size() != 0) {
-            for (int i = 0; i < linfo.pairmoves.size(); i++) {
-                int[][] line = linfo.pairmoves.get(i);
+        if (linfo.tripotential.size() != 0) {
+            for (int i = 0; i < linfo.tripotential.size(); i++) {
+                int[][] line = linfo.tripotential.get(i);
                 for (int x = 0; x < line.length; x++) {
                     if (board[line[x][0]][line[x][1]][line[x][2]] == '-')
                         in.add(line[x]);
@@ -130,7 +126,7 @@ public class AI_Blocking extends AI_Build {
         return new Location(x,y,z);
     }
 
-    public int[] @Nullable [] almostWinningMoves(char c, char[][] [] board) {
+    public int[][] almostWinningMoves(char c, char[][][] board) {
         //checking for 3 in line for given char
         int counter, dashcounter;
         for (int x = 0; x < board.length; x++)
@@ -263,8 +259,8 @@ public class AI_Blocking extends AI_Build {
     }
 
     public doubtrip info(char c, char[][] [] board) {
-        doubtrip info = new doubtrip(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),0,0,0);
-        //notes lines w/ triples, doubles, and singles w/ tally TODO: new ArrayList<int[][]>() and int singles
+        doubtrip info = new doubtrip(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 0,0,0, 0);
+        //notes lines w/ triples, doubles, and singles w/ tally
         int counter, dashcounter;
         for (int x = 0; x < board.length; x++)
             for (int y = 0; y < board.length; y++) {
@@ -276,16 +272,20 @@ public class AI_Blocking extends AI_Build {
                         dashcounter++;
                 }
                 if (counter == 3 && dashcounter == 1) {
-                    info.triplemoves.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
+                    info.quadpotential.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
                     info.triples++;
                 }
                 if (counter == 2 && dashcounter == 2) {
-                    info.pairmoves.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
+                    info.tripotential.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
                     info.pairs++;
                 }
                 if (counter == 1 && dashcounter == 3) {
-                    info.singlemoves.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
+                    info.doublepotential.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
                     info.singles++;
+                }
+                if (counter == 0 && dashcounter == 4) {
+                    info.singlepotential.add(new int[][]{{x, y, 0}, {x, y, 1}, {x, y, 2}, {x, y, 3}});
+                    info.empties++;
                 }
                 counter = dashcounter = 0;
                 for (int z = 0; z < board.length; z++) {
@@ -295,16 +295,20 @@ public class AI_Blocking extends AI_Build {
                         dashcounter++;
                 }
                 if (counter == 3 && dashcounter == 1) {
-                    info.triplemoves.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
+                    info.quadpotential.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
                     info.triples++;
                 }
                 if (counter == 2 && dashcounter == 2) {
-                    info.pairmoves.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
+                    info.tripotential.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
                     info.pairs++;
                 }
                 if (counter == 1 && dashcounter == 3) {
-                    info.singlemoves.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
+                    info.doublepotential.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
                     info.singles++;
+                }
+                if (counter == 0 && dashcounter == 4) {
+                    info.singlepotential.add(new int[][]{{x, 0, y}, {x, 1, y}, {x, 2, y}, {x, 3, y}});
+                    info.empties++;
                 }
                 counter = dashcounter = 0;
                 for (int z = 0; z < board.length; z++) {
@@ -314,16 +318,20 @@ public class AI_Blocking extends AI_Build {
                         dashcounter++;
                 }
                 if (counter == 3 && dashcounter == 1) {
-                    info.triplemoves.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
+                    info.quadpotential.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
                     info.triples++;
                 }
                 if (counter == 2 && dashcounter == 2) {
-                    info.pairmoves.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
+                    info.tripotential.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
                     info.pairs++;
                 }
                 if (counter == 1 && dashcounter == 3) {
-                    info.singlemoves.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
+                    info.doublepotential.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
                     info.singles++;
+                }
+                if (counter == 1 && dashcounter == 3) {
+                    info.singlepotential.add(new int[][]{{0, x, y}, {1, x, y}, {2, x, y}, {3, x, y}});
+                    info.empties++;
                 }
             } //vertical (16), horizontal (16) on plane, multi-plane straight (16)
 
@@ -336,16 +344,20 @@ public class AI_Blocking extends AI_Build {
                     dashcounter++;
             }
             if (counter == 3 && dashcounter == 1) {
-                info.triplemoves.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
+                info.quadpotential.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
                 info.triples++;
             }
             if (counter == 2 && dashcounter == 2) {
-                info.pairmoves.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
+                info.tripotential.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
                 info.pairs++;
             }
             if (counter == 1 && dashcounter == 3) {
-                info.singlemoves.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
+                info.doublepotential.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
                 info.singles++;
+            }
+            if (counter == 0 && dashcounter == 4) {
+                info.singlepotential.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
+                info.empties++;
             }
             counter = dashcounter = 0;
             for (int i = 0; i < board.length; i++) {
@@ -355,16 +367,20 @@ public class AI_Blocking extends AI_Build {
                     dashcounter++;
             }
             if (counter == 3 && dashcounter == 1) {
-                info.triplemoves.add(new int[][]{{x, 3, 0}, {x, 2, 1}, {x, 1, 2}, {x, 0, 3}});
+                info.quadpotential.add(new int[][]{{x, 3, 0}, {x, 2, 1}, {x, 1, 2}, {x, 0, 3}});
                 info.triples++;
             }
             if (counter == 2 && dashcounter == 2) {
-                info.pairmoves.add(new int[][]{{x, 3, 0}, {x, 2, 1}, {x, 1, 2}, {x, 0, 3}});
+                info.tripotential.add(new int[][]{{x, 3, 0}, {x, 2, 1}, {x, 1, 2}, {x, 0, 3}});
                 info.pairs++;
             }
             if (counter == 1 && dashcounter == 3) {
-                info.singlemoves.add(new int[][]{{x, 3, 0}, {x, 2, 1}, {x, 1, 2}, {x, 0, 3}});
+                info.doublepotential.add(new int[][]{{x, 3, 0}, {x, 2, 1}, {x, 1, 2}, {x, 0, 3}});
                 info.singles++;
+            }
+            if (counter == 1 && dashcounter == 3) {
+                info.singlepotential.add(new int[][]{{x, 0, 0}, {x, 1, 1}, {x, 2, 2}, {x, 3, 3}});
+                info.empties++;
             }
             counter = dashcounter = 0;
             for (int i = 0; i < board.length; i++) {
@@ -374,16 +390,20 @@ public class AI_Blocking extends AI_Build {
                     dashcounter++;
             }
             if (counter == 3 && dashcounter == 1) {
-                info.triplemoves.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
+                info.quadpotential.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
                 info.triples++;
             }
             if (counter == 2 && dashcounter == 2) {
-                info.pairmoves.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
+                info.tripotential.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
                 info.pairs++;
             }
             if (counter == 1 && dashcounter == 3) {
-                info.singlemoves.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
+                info.doublepotential.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
                 info.singles++;
+            }
+            if (counter == 0 && dashcounter == 4) {
+                info.singlepotential.add(new int[][]{{0, x, 0}, {1, x, 1}, {2, x, 2}, {3, x, 3}});
+                info.empties++;
             }
             counter = dashcounter = 0;
             for (int i = 0; i < board.length; i++) {
@@ -393,16 +413,20 @@ public class AI_Blocking extends AI_Build {
                     dashcounter++;
             }
             if (counter == 3 && dashcounter == 1) {
-                info.triplemoves.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
+                info.quadpotential.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
                 info.triples++;
             }
             if (counter == 2 && dashcounter == 2) {
-                info.pairmoves.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
+                info.tripotential.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
                 info.pairs++;
             }
             if (counter == 1 && dashcounter == 3) {
-                info.singlemoves.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
+                info.doublepotential.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
                 info.singles++;
+            }
+            if (counter == 0 && dashcounter == 4) {
+                info.singlepotential.add(new int[][]{{3, x, 0}, {2, x, 1}, {1, x, 2}, {0, x, 3}});
+                info.empties++;
             }
             counter = dashcounter = 0;
             for (int i = 0; i < board.length; i++) {
@@ -412,16 +436,20 @@ public class AI_Blocking extends AI_Build {
                     dashcounter++;
             }
             if (counter == 3 && dashcounter == 1) {
-                info.triplemoves.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
+                info.quadpotential.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
                 info.triples++;
             }
             if (counter == 2 && dashcounter == 2) {
-                info.pairmoves.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
+                info.tripotential.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
                 info.pairs++;
             }
             if (counter == 1 && dashcounter == 3) {
-                info.singlemoves.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
+                info.doublepotential.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
                 info.singles++;
+            }
+            if (counter == 0 && dashcounter == 4) {
+                info.singlepotential.add(new int[][]{{0, 0, x}, {1, 1, x}, {2, 2, x}, {3, 3, x}});
+                info.empties++;
             }
             counter = dashcounter = 0;
             for (int i = 0; i < board.length; i++) {
@@ -431,16 +459,20 @@ public class AI_Blocking extends AI_Build {
                     dashcounter++;
             }
             if (counter == 3 && dashcounter == 1) {
-                info.triplemoves.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
+                info.quadpotential.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
                 info.triples++;
             }
             if (counter == 2 && dashcounter == 2) {
-                info.pairmoves.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
+                info.tripotential.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
                 info.pairs++;
             }
             if (counter == 1 && dashcounter == 3) {
-                info.singlemoves.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
+                info.doublepotential.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
                 info.singles++;
+            }
+            if (counter == 0 && dashcounter == 4) {
+                info.singlepotential.add(new int[][]{{3, 0, x}, {2, 1, x}, {1, 2, x}, {0, 3, x}});
+                info.empties++;
             }
         } //diagonal (8) on plane, multi-plane diagonal (16)
         counter = dashcounter = 0;
@@ -451,16 +483,20 @@ public class AI_Blocking extends AI_Build {
                 dashcounter++;
         }
         if (counter == 3 && dashcounter == 1) {
-            info.triplemoves.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
+            info.quadpotential.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
             info.triples++;
         }
         if (counter == 2 && dashcounter == 2) {
-            info.pairmoves.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
+            info.tripotential.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
             info.pairs++;
         }
         if (counter == 1 && dashcounter == 3) {
-            info.singlemoves.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
+            info.doublepotential.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
             info.singles++;
+        }
+        if (counter == 0 && dashcounter == 4) {
+            info.singlepotential.add(new int[][]{{0, 0, 0}, {1, 1, 1}, {2, 2, 2}, {3, 3, 3}});
+            info.empties++;
         }
         counter = dashcounter = 0;
         for (int i = 0; i < board.length; i++) {
@@ -470,16 +506,20 @@ public class AI_Blocking extends AI_Build {
                 dashcounter++;
         }
         if (counter == 3 && dashcounter == 1) {
-            info.triplemoves.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
+            info.quadpotential.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
             info.triples++;
         }
         if (counter == 2 && dashcounter == 2) {
-            info.pairmoves.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
+            info.tripotential.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
             info.pairs++;
         }
         if (counter == 1 && dashcounter == 3) {
-            info.singlemoves.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
+            info.doublepotential.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
             info.singles++;
+        }
+        if (counter == 0 && dashcounter == 4) {
+            info.singlepotential.add(new int[][]{{0, 0, 3}, {1, 1, 2}, {2, 2, 1}, {3, 3, 0}});
+            info.empties++;
         }
         counter = dashcounter = 0;
         for (int i = 0; i < board.length; i++) {
@@ -489,16 +529,20 @@ public class AI_Blocking extends AI_Build {
                 dashcounter++;
         }
         if (counter == 3 && dashcounter == 1) {
-            info.triplemoves.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
+            info.quadpotential.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
             info.triples++;
         }
         if (counter == 2 && dashcounter == 2) {
-            info.pairmoves.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
+            info.tripotential.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
             info.pairs++;
         }
         if (counter == 1 && dashcounter == 3) {
-            info.singlemoves.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
+            info.doublepotential.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
             info.singles++;
+        }
+        if (counter == 0 && dashcounter == 4) {
+            info.singlepotential.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
+            info.empties++;
         }
         counter = dashcounter = 0;
         for (int i = 0; i < board.length; i++) {
@@ -508,43 +552,51 @@ public class AI_Blocking extends AI_Build {
                 dashcounter++;
         }
         if (counter == 3 && dashcounter == 1) {
-            info.triplemoves.add(new int[][]{{3, 0, 0}, {2, 1, 1}, {1, 2, 2}, {0, 3, 3}});
+            info.quadpotential.add(new int[][]{{3, 0, 0}, {2, 1, 1}, {1, 2, 2}, {0, 3, 3}});
             info.triples++;
         }
         if (counter == 2 && dashcounter == 2) {
-            info.pairmoves.add(new int[][]{{3, 0, 0}, {2, 1, 1}, {1, 2, 2}, {0, 3, 3}});
+            info.tripotential.add(new int[][]{{3, 0, 0}, {2, 1, 1}, {1, 2, 2}, {0, 3, 3}});
             info.pairs++;
         }
         if (counter == 1 && dashcounter == 3) {
-            info.singlemoves.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
+            info.doublepotential.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
             info.singles++;
+        }
+        if (counter == 0 && dashcounter == 4) {
+            info.singlepotential.add(new int[][]{{0, 3, 0}, {1, 2, 1}, {2, 1, 2}, {3, 0, 3}});
+            info.empties++;
         }
         // multi-multi-plane diagonal (4)
         return info;
     }
 }
 class doubtrip {
-    ArrayList<int[][]> triplemoves, pairmoves, singlemoves;
-    int triples, pairs, singles;
+    ArrayList<int[][]> quadpotential, tripotential, doublepotential, singlepotential;
+    int triples, pairs, singles, empties;
 
-    public doubtrip(ArrayList<int[][]> triplemoves, ArrayList<int[][]> pairmoves, ArrayList<int[][]> singlemoves, int triples, int pairs, int singles) {
-        this.triplemoves = triplemoves;
-        this.pairmoves = pairmoves;
-        this.singlemoves = singlemoves;
+    public doubtrip(ArrayList<int[][]> quadpotential, ArrayList<int[][]> tripotential, ArrayList<int[][]> doublepotential, ArrayList<int[][]> singlepotential, int triples, int pairs, int singles, int empties) {
+        this.quadpotential = quadpotential;
+        this.tripotential = tripotential;
+        this.doublepotential = doublepotential;
+        this.singlepotential = singlepotential;
         this.triples = triples;
         this.pairs = pairs;
         this.singles = singles;
+        this.empties = empties;
     }
 
     @Override
     public String toString() {
         return "doubtrip{" +
-                "triplemoves=" + triplemoves +
-                ", pairmoves=" + pairmoves +
-                ", singlemoves=" + singlemoves +
+                "quadpotential=" + quadpotential +
+                ", tripotential=" + tripotential +
+                ", doublepotential=" + doublepotential +
+                ", singlepotential=" + singlepotential +
                 ", triples=" + triples +
                 ", pairs=" + pairs +
                 ", singles=" + singles +
+                ", empties=" + empties +
                 '}';
     }
 }
