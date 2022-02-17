@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TicTacFrame extends JFrame {
-    public TicTacFrame(String title, int x, int y, int games, int waitNextMove, int waitWinningMove)
+    public TicTacFrame(String title, int x, int y, int games, int waitNextMove, int waitWinningMove, boolean display)
     {
         //creates frame with title
         super(title);
@@ -28,7 +28,9 @@ public class TicTacFrame extends JFrame {
         //adjusts to be the size we set with preferred size
         pack();
         //show the screen
-        setVisible(true);
+
+        if(display)
+            setVisible(true);
 
         if(x!=0 || y!=0){
             Thread t = new Thread(p);

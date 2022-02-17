@@ -4,6 +4,7 @@ public class MainGame {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         int x, y;
+        boolean display;
         do {
             System.out.println("Player List:" + "\n"
                     + "Human - 0" + "\n"
@@ -29,9 +30,16 @@ public class MainGame {
             System.out.println("How many milliseconds between each game? (2000, 3000)");
             waitWinningMove = keyboard.nextInt();
         }
+
+
         else
             games = waitNextMove = waitWinningMove = 0;
 
-        new TicTacFrame("TicTac", x, y, games, waitNextMove, waitWinningMove);
+
+        System.out.print("Do you want to open a display? y/n: ");
+
+        display = keyboard.next().equals("y");
+
+        new TicTacFrame("TicTac", x, y, games, waitNextMove, waitWinningMove,display);
     }
 }
