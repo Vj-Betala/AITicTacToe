@@ -18,9 +18,10 @@ public class MainGame {
                     + "Human - 0" + "\n"
                     + "Random AI - 1" + "\n"
                     + "StraightLine - 2" + "\n"
+                    + "Blocking - 3" + "\n"
                     + "Select Player 2:");
             y = keyboard.nextInt();
-        } while (y > 2); // change while statement after adding more AIs
+        } while (y > 3); // change while statement after adding more AIs
         int games, waitNextMove, waitWinningMove;
         if (x != 0 && y != 0) {
             System.out.println("How many games should be played?");

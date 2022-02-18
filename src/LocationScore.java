@@ -23,9 +23,9 @@ public class LocationScore {
 
         {
             for (int i = 0; i < 4; i++) {
-                if (board[column][row][i] == player1) {
+                if (board[sheet][row][i] == player1) {
                     count++;
-                } else if (board[column][row][i] == player2) {
+                } else if (board[sheet][row][i] == player2) {
                     count = 0;
                     break;
                 }
@@ -53,9 +53,9 @@ public class LocationScore {
         {
             count = 0;
             for (int i = 0; i < 4; i++) {
-                if (board[column][i][sheet] == player1) {
+                if (board[sheet][i][column] == player1) {
                     count++;
-                } else if (board[column][i][sheet] == player2) {
+                } else if (board[sheet][i][column] == player2) {
                     count = 0;
                     break;
                 }
@@ -83,9 +83,9 @@ public class LocationScore {
         {
             count = 0;
             for (int i = 0; i < 4; i++) {
-                if (board[column][row][i] == player1) {
+                if (board[sheet][row][i] == player1) {
                     count++;
-                } else if (board[column][row][i] == player2) {
+                } else if (board[sheet][row][i] == player2) {
                     count = 0;
                     break;
                 }
@@ -112,16 +112,16 @@ public class LocationScore {
 
         {
             count = 0;
-            if (column == row) {
-                if (board[0][0][sheet] == player1)
+            if (sheet == row) {
+                if (board[0][0][column] == player1)
                     count++;
-                if (board[1][1][sheet] == player1)
+                if (board[1][1][column] == player1)
                     count++;
-                if (board[2][2][sheet] == player1)
+                if (board[2][2][column] == player1)
                     count++;
-                if (board[3][3][sheet] == player1)
+                if (board[3][3][column] == player1)
                     count++;
-                if (board[0][0][sheet] == player2 || board[1][1][sheet] == player2 || board[2][2][sheet] == player2 || board[3][3][sheet] == player2)
+                if (board[0][0][column] == player2 || board[1][1][column] == player2 || board[2][2][column] == player2 || board[3][3][column] == player2)
                     count = 0;
             }
 
@@ -146,16 +146,16 @@ public class LocationScore {
 
         {
             count = 0;
-            if (column + row == 3) {
-                if (board[0][3][sheet] == player1)
+            if (sheet + row == 3) {
+                if (board[0][3][column] == player1)
                     count++;
-                if (board[1][2][sheet] == player1)
+                if (board[1][2][column] == player1)
                     count++;
-                if (board[2][1][sheet] == player1)
+                if (board[2][1][column] == player1)
                     count++;
-                if (board[3][0][sheet] == player1)
+                if (board[3][0][column] == player1)
                     count++;
-                if (board[0][3][sheet] == player2 || board[1][2][sheet] == player2 || board[2][1][sheet] == player2 || board[3][0][sheet] == player2)
+                if (board[0][3][column] == player2 || board[1][2][column] == player2 || board[2][1][column] == player2 || board[3][0][column] == player2)
                     count = 0;
             }
 
@@ -248,16 +248,16 @@ public class LocationScore {
 
         {
             count = 1;
-            if (row == sheet) {
-                if (board[column][0][0] == player1)
+            if (row == column) {
+                if (board[sheet][0][0] == player1)
                     count++;
-                if (board[column][1][1] == player1)
+                if (board[sheet][1][1] == player1)
                     count++;
-                if (board[column][2][2] == player1)
+                if (board[sheet][2][2] == player1)
                     count++;
-                if (board[column][3][3] == player1)
+                if (board[sheet][3][3] == player1)
                     count++;
-                if (board[column][3][3] == player2 || board[column][2][2] == player2 || board[column][1][1] == player2 || board[column][0][0] == player2)
+                if (board[sheet][3][3] == player2 || board[sheet][2][2] == player2 || board[sheet][1][1] == player2 || board[sheet][0][0] == player2)
                     count = 0;
             }
 
@@ -282,16 +282,16 @@ public class LocationScore {
 
         {
             count = 0;
-            if (row + sheet == 3) {
-                if (board[column][0][3] == player1)
+            if (row + column == 3) {
+                if (board[sheet][0][3] == player1)
                     count++;
-                if (board[column][1][2] == player1)
+                if (board[sheet][1][2] == player1)
                     count++;
-                if (board[column][2][1] == player1)
+                if (board[sheet][2][1] == player1)
                     count++;
-                if (board[column][3][0] == player1)
+                if (board[sheet][3][0] == player1)
                     count++;
-                if (board[column][3][0] == player2 || board[column][2][1] == player2 || board[column][1][2] == player2 || board[column][0][3] == player2)
+                if (board[sheet][3][0] == player2 || board[sheet][2][1] == player2 || board[sheet][1][2] == player2 || board[sheet][0][3] == player2)
                     count = 0;
             }
 
@@ -351,15 +351,15 @@ public class LocationScore {
         {
             count = 0;
             if ((sheet == 0 && row == 0 && column == 3) || (sheet == 1 && row == 1 && column == 2) || (sheet == 2 && row == 2 && column == 1) || (sheet == 3 && row == 3 && column == 0)) {
-                if (board[3][0][0] == player1)
+                if (board[0][0][3] == player1)
                     count++;
-                if (board[2][1][1] == player1)
+                if (board[1][1][2] == player1)
                     count++;
-                if (board[1][2][2] == player1)
+                if (board[2][2][1] == player1)
                     count++;
-                if (board[0][3][3] == player1)
+                if (board[3][3][0] == player1)
                     count++;
-                if (board[3][0][0] == player2 || board[1][2][2] == player2 || board[2][1][1] == player2 || board[0][3][3] == player2)
+                if (board[0][0][3] == player2 || board[1][1][2] == player2 || board[2][2][1] == player2 || board[3][3][0] == player2)
                     count = 0;
             }
 
@@ -419,15 +419,15 @@ public class LocationScore {
         {
             count = 0;
             if ((sheet == 3 && row == 0 && column == 0) || (sheet == 2 && row == 1 && column == 1) || (sheet == 1 && row == 2 && column == 2) || (sheet == 0 && row == 3 && column == 3)) {
-                if (board[0][0][3] == player1)
+                if (board[3][0][0] == player1)
                     count++;
-                if (board[1][1][2] == player1)
+                if (board[2][1][1] == player1)
                     count++;
-                if (board[2][2][1] == player1)
+                if (board[1][2][2] == player1)
                     count++;
-                if (board[3][3][0] == player1)
+                if (board[0][3][3] == player1)
                     count++;
-                if (board[0][0][3] == player2 || board[2][2][1] == player2 || board[1][1][2] == player2 || board[3][3][0] == player2)
+                if (board[3][0][0] == player2 || board[1][2][2] == player2 || board[2][1][1] == player2 || board[0][3][3] == player2)
                     count = 0;
             }
 

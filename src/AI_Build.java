@@ -4,6 +4,16 @@ public class AI_Build extends MainPlayer {
     public boolean emptyBoard;
     public int OSCOREWEIGHT;
 
+    public int getMYSCOREWIEGHT() {
+        return MYSCOREWIEGHT;
+    }
+
+    public void setMYSCOREWIEGHT(int MYSCOREWIEGHT) {
+        this.MYSCOREWIEGHT = MYSCOREWIEGHT;
+    }
+
+    public int MYSCOREWIEGHT;
+
     public AI_Build(int x) {
         if (x == 0) {
             setLetter('x');

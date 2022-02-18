@@ -55,6 +55,9 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                 case 2:
                     ai2 = new secondAIVR0173(1);
                     break;
+                case 3:
+                    ai2 = new AI_Blocking(1);
+                    break;
             }
         }
         this.x = x; this.y = y; turn = true; this.games = games; this.waitNextMove = waitNextMove; this.waitWinningMove = waitWinningMove;
@@ -176,8 +179,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
     @Override
     public void run() {
         if(x!=0 && y!=0){
-//            for (int j = 0; j < 20; j++) {
-//                ai2.setOSCOREWEIGHT(j);
+
                 for (int i = 0; i < games; i++) {
                     while (!board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE) {
                         if (turn) {
@@ -215,8 +217,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                 System.out.println(" X won " + xwins + " and Y won " + ywins + ". There were " + (games - xwins - ywins) + " ties.");
                 xwins = 0;
                 ywins = 0;
-//             }
-        }
+             }
     }
 
     public void addNotify() {
