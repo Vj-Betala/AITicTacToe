@@ -38,10 +38,14 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
             ai1 = new AI_Build(0);
         else if (x == 2)
             ai1 = new AI_Blocking(0);
+        else if (x == 3)
+            ai1 = new secondAIVR0173(0);
         if (y == 1)
             ai2 = new AI_Build(1);
         else if (y == 2)
             ai2 = new AI_Blocking(1);
+        else if (y == 3)
+            ai2 = new secondAIVR0173(1);
         board = new BoardGame();
         rand = new Random();
         this.x = x; this.y = y; turn = true; this.games = games; this.waitNextMove = waitNextMove; this.waitWinningMove = waitWinningMove;

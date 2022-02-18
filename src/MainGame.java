@@ -11,7 +11,7 @@ public class MainGame {
                     + "Coming Soon..." + "\n"
                     + "Select Player 1:");
             x = keyboard.nextInt();
-        } while (x > 2 || x < 0); // change while statement after adding more AIs
+        } while (x > 3 || x < 0); // change while statement after adding more AIs
         do {
             System.out.println("Player List:" + "\n"
                     + "Human - 0" + "\n"
@@ -19,7 +19,7 @@ public class MainGame {
                     + "Coming Soon..." + "\n"
                     + "Select Player 2:");
             y = keyboard.nextInt();
-        } while (y > 2 || y < 0); // change while statement after adding more AIs
+        } while (y > 3 || y < 0); // change while statement after adding more AIs
         int games, waitNextMove, waitWinningMove;
         if (x != 0 && y != 0) {
             System.out.println("How many games should be played?");
