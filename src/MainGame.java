@@ -6,21 +6,27 @@ public class MainGame {
         int x, y;
         do {
             System.out.println("Player List:" + "\n"
-                    + "Human - 0" + "\n"
-                    + "Random AI - 1" + "\n"
+                    + "0: Human" + "\n"
+                    + "1: Random AI" + "\n"
+                    + "2: Vaarij's Shitty AI (jkjk)" + "\n"
+                    + "3: Blocking AI" + "\n"
+                    + "4: Fascinating Blocking AI (in dev)" + "\n"
                     + "Coming Soon..." + "\n"
                     + "Select Player 1:");
             x = keyboard.nextInt();
-        } while (x > 3 || x < 0); // change while statement after adding more AIs
+        } while (x > 4 || x < 0); // change while statement after adding more AIs
         do {
             System.out.println("Player List:" + "\n"
-                    + "Human - 0" + "\n"
-                    + "Random AI - 1" + "\n"
+                    + "0: Human" + "\n"
+                    + "1: Random AI" + "\n"
+                    + "2: Vaarij's Shitty AI (jkjk)" + "\n"
+                    + "3: Blocking AI" + "\n"
+                    + "4: Fascinating Blocking AI (in dev)" + "\n"
                     + "Coming Soon..." + "\n"
                     + "Select Player 2:");
             y = keyboard.nextInt();
-        } while (y > 3 || y < 0); // change while statement after adding more AIs
-        int games, waitNextMove, waitWinningMove;
+        } while (y > 4 || y < 0); // change while statement after adding more AIs
+        int games, waitNextMove, waitWinningMove, frame;
         if (x != 0 && y != 0) {
             System.out.println("How many games should be played?");
             games = keyboard.nextInt();
@@ -28,10 +34,13 @@ public class MainGame {
             waitNextMove = keyboard.nextInt();
             System.out.println("How many milliseconds between each game? (2000, 3000)");
             waitWinningMove = keyboard.nextInt();
+            System.out.println("Do you want a display? 0 = no; 1 = true.");
+            frame = keyboard.nextInt();
         }
-        else
+        else {
             games = waitNextMove = waitWinningMove = 0;
-
-        new TicTacFrame("TicTac", x, y, games, waitNextMove, waitWinningMove);
+            frame = 1;
+        }
+        new TicTacFrame("TicTac", x, y, games, waitNextMove, waitWinningMove, frame);
     }
 }

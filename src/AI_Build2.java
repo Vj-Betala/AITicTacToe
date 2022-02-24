@@ -1,8 +1,18 @@
-public class AI_Build2 extends AI_Build{ 
+public class AI_Build2 extends AI_Build {
     private Location move;
     private char letter, oLetter;
     public boolean emptyBoard;
     public int OSCOREWEIGHT;
+
+    public int getMYSCOREWIEGHT() {
+        return MYSCOREWIEGHT;
+    }
+
+    public void setMYSCOREWIEGHT(int MYSCOREWIEGHT) {
+        this.MYSCOREWIEGHT = MYSCOREWIEGHT;
+    }
+
+    public int MYSCOREWIEGHT;
 
     public AI_Build2(int x) {
         super(x);

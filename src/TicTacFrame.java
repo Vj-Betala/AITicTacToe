@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TicTacFrame extends JFrame {
-    public TicTacFrame(String title, int x, int y, int games, int waitNextMove, int waitWinningMove)
+    public TicTacFrame(String title, int x, int y, int games, int waitNextMove, int waitWinningMove, int frame)
     {
         //creates frame with title
         super(title);
@@ -28,8 +28,9 @@ public class TicTacFrame extends JFrame {
         //adjusts to be the size we set with preferred size
         pack();
         //show the screen
-        setVisible(true);
-        //TODO: look if there should be other thread only if both or even if there is only one AI
+        if (frame == 1)
+            setVisible(true);
+        //creates thread for AI
         if(x!=0 && y!=0){
             Thread t = new Thread(p);
             t.start();
