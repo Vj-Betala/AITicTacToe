@@ -4,8 +4,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AI_Blocking extends AI_Build {
-    public AI_Blocking(int x) {
+public class AI_Blocking extends AI_Build0175 {
+    public AI_Blocking(char x) {
         super(x);
     }
 

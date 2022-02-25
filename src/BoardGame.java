@@ -130,6 +130,10 @@ public class BoardGame {
         return LOSE;
     }
 
+    public char getLocation(Location loc){
+        return listData[loc.getCol()][loc.getRow()][loc.getSheet()];
+    }
+
     @Override
     public String toString() {
         return "" + Arrays.deepToString(listData);

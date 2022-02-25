@@ -11,5 +11,5 @@ public interface PlayerInt
     public String getName();
 
     /*Resets all stored data other than player name and letter*/
-    public void reset();
+    public void refresh();
 }

@@ -10,17 +10,17 @@ import java.util.Random;
 public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,Runnable {
     private Random rand;
     private BufferedImage buffer;
-    private AI_Build ai1;
-    private AI_Build ai2;
+    private AI_Build0175 ai1;
+    private AI_Build0175 ai2;
     private BoardGame board;
     int x, y, games, waitNextMove, waitWinningMove, xwins, ywins;
     boolean turn;
 
-    public AI_Build getAi1() {
+    public AI_Build0175 getAi1() {
         return ai1;
     }
 
-    public AI_Build getAi2() {
+    public AI_Build0175 getAi2() {
         return ai2;
     }
 
@@ -39,10 +39,13 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
         if (x != 0) {
             switch(x){
                 case 1:
-                    ai1 = new AI_Build(0);
+                    ai1 = new AI_Build0175('x');
                     break;
                 case 2:
-                    ai1 = new secondAIVR0173(0);
+                    ai1 = new AIRV0175('x');
+                    break;
+                case 3:
+                    ai1 = new ThirdLevelAIRV0175('x');
                     break;
             }
             ai1.isEmptyBoard(board.getListData());
@@ -50,13 +53,13 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
         if (y != 0) {
             switch(y){
                 case 1:
-                    ai2 = new AI_Build(1);
+                    ai2 = new AI_Build0175('o');
                     break;
                 case 2:
-                    ai2 = new secondAIVR0173(1);
+                    ai2 = new AIRV0175('o');
                     break;
                 case 3:
-                    ai2 = new AI_Blocking(1);
+                    ai2 = new AI_Blocking('o');
                     break;
             }
         }
@@ -150,7 +153,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     }
                 } else {
                     Location move = getAi1().getMove(getBoard().getListData());
-                    getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'x';
+                    board.addChar('x', move);
                     turn = false;
                 }
             }
@@ -169,7 +172,7 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                 }
             } else {
                 Location move = getAi2().getMove(getBoard().getListData());
-                getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'o';
+                board.addChar('o', move);
                 turn = true;
             }
         }
@@ -184,11 +187,11 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                     while (!board.isFull() && board.xWinCondition(board.winningMoves()) == BoardGame.TIE) {
                         if (turn) {
                             Location move = getAi1().getMove(getBoard().getListData());
-                            getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'x';
+                            board.addChar('x', move);
                             turn = false;
                         } else {
                             Location move = getAi2().getMove(getBoard().getListData());
-                            getBoard().getListData()[move.getSheet()][move.getRow()][move.getCol()] = 'o';
+                            board.addChar('o', move);
                             turn = true;
                         }
                         try {
@@ -207,6 +210,8 @@ public class TicTacPanel extends JPanel implements MouseListener, KeyListener ,R
                         ywins++;
 
                     board.clear();
+                    ai1.refresh();
+                    ai2.refresh();
                     try {
                         Thread.sleep(waitWinningMove);
                         repaint();

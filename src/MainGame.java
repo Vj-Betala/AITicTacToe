@@ -10,6 +10,7 @@ public class MainGame {
                     + "Human - 0" + "\n"
                     + "Random AI - 1" + "\n"
                     + "StraightLine - 2" + "\n"
+                    + "ThirdLevel - 3" + "\n"
                     + "Select Player 1:");
             x = keyboard.nextInt();
         } while (x > 3); // change while statement after adding more AIs

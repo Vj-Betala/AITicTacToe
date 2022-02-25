@@ -1,6 +1,6 @@
 public class GameRun {
 
-    private AI_Build ai1;
+    private AI_Build0175 ai1;
     private BoardGame board;
     private boolean isPlayerXTurn = true;
 
@@ -26,11 +26,11 @@ public class GameRun {
         System.out.println(board);
     }
 
-    public AI_Build getAi1() {
+    public AI_Build0175 getAi1() {
         return ai1;
     }
 
-    public void setAi1(AI_Build ai1) {
+    public void setAi1(AI_Build0175 ai1) {
         this.ai1 = ai1;
     }
 

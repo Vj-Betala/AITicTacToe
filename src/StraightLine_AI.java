@@ -1,6 +1,6 @@
-public class StraightLine_AI extends AI_Build {
+public class StraightLine_AI extends AI_Build0175 {
 
-    public StraightLine_AI(int x) {
+    public StraightLine_AI(char x) {
         super(x);
     }
 
